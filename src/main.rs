@@ -12,7 +12,7 @@ fn main() {
 
     // Check args length.
     if args.len() != 2 {
-        println!("Expected 1 arugment. Usage: ./run.sh <filename>");
+        println!("Expected 1 argument. Usage: ./run.sh <filename>");
         panic!(1);
     }
 
@@ -20,8 +20,12 @@ fn main() {
     let filename: String = format!("{}", args[1]);
     let contents = fs::read_to_string(filename).expect("File not found");
 
+    // Parse!
     let clauses = parser::parse(contents);
-    let (isSat, assignments) = solver::solve(clauses);
+    for clause in clauses {
+        println!("{}", clause);
+    }
 
-    println!("Hello, world!");
+    // Solve!
+    // let (isSat, assignments) = solver::solve(clauses);
 }
