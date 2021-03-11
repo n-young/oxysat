@@ -1,5 +1,5 @@
 use std::fmt;
-
+use std::fmt::Display;
 // Sign enum - either Positive or Negative.
 pub enum Sign {
     Position,

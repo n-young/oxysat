@@ -1,6 +1,8 @@
-fn solve(clauses: Vec<Clause>) -> (Bool, Vec<Literal>) {}
+use crate::structs::*;
 
-fn solveHelper(assignment: Vec<Literal>, clauses: Vec<Clause>) -> (Bool, Vec<Literal>) {}
+pub fn solve(clauses: Vec<Clause>) -> (bool, Vec<Literal>) {}
+
+fn solveHelper(assignment: Vec<Literal>, clauses: Vec<Clause>) -> (bool, Vec<Literal>) {}
 
 // Perform unit clause elimination and return resulting clauses/assignment
 fn unitClauseElimination(
