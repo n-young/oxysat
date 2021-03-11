@@ -27,5 +27,5 @@ fn main() {
     }
 
     // Solve!
-    // let (isSat, assignments) = solver::solve(clauses);
+    let (isSat, assignments) = solver::solve(clauses);
 }

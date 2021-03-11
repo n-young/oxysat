@@ -1,0 +1,11 @@
+# TODO
+
+- (Nick): Learn Rust
+- Unit clause elimination
+- Pure literal elimination
+- Pick var
+- Backtracking
+- Unit testing
+- System testing + make testing script
+- Writeup
+- Documentation
