@@ -1,13 +1,14 @@
 use std::fmt;
 use std::fmt::Display;
 
+// Literal type - is either positive or negative, has a String id.
 pub enum Literal {
     Positive(String),
     Negative(String)
 }
 
-// constructor
 impl Literal {
+    // Constructor.
     pub fn new(i: i64) -> Literal {
         if i > 0 {
             Literal::Positive(i.to_string())
@@ -18,6 +19,7 @@ impl Literal {
         }
     }
 
+    // ID Getter.
     pub fn id(&self) -> &String {
         match self {
             Literal::Positive(id) => id,
