@@ -50,7 +50,7 @@ impl Display for Literal {
 }
 
 // Clause struct - has an ID and a set of Literals.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Clause {
     pub id: i64,
     pub literals: HashSet<Literal>,

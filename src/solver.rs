@@ -1,17 +1,16 @@
 use crate::structs::*;
 use crate::consts;
-use std::collections::HashSet;
+use std::collections::{HashSet, HashMap};
 use std::vec::Vec;
 use std::iter::FromIterator;
 
-
-// TODO: Make it such that no functions borrow values.
 
 // Solve function - passes variables to the solve helper.
 pub fn solve(clauses: Vec<Clause>) -> (bool, HashSet<Literal>) {
     let assignment = HashSet::new();
     solve_helper(assignment, clauses)
 }
+
 
 // Primary solver body. Sovles recursively.
 fn solve_helper(assignment: HashSet<Literal>, clauses: Vec<Clause>) -> (bool, HashSet<Literal>) {
@@ -48,11 +47,10 @@ fn solve_helper(assignment: HashSet<Literal>, clauses: Vec<Clause>) -> (bool, Ha
     }
 }
 
+
 // Perform unit clause elimination and return resulting clauses/assignment
-fn unit_clause_elimination(
-    assignment: HashSet<Literal>,
-    clauses: Vec<Clause>,
-) -> (HashSet<Literal>, Vec<Clause>) {
+fn unit_clause_elimination(assignment: HashSet<Literal>, clauses: Vec<Clause>)
+        -> (HashSet<Literal>, Vec<Clause>) {
     // Define a boolean mask.
     let mut units = HashSet::new();
 
@@ -95,17 +93,42 @@ fn unit_clause_elimination(
         }
     });
 
+    // Return!
     return (assignment.union(&units).cloned().collect(), new_clauses.collect());
 }
 
+
 // Perform pure literal elimination and return resulting clauses/assignment
-fn pure_literal_elimination(
-    assignment: HashSet<Literal>,
-    clauses: Vec<Clause>,
-) -> (HashSet<Literal>, Vec<Clause>) {
-    panic!()
+fn pure_literal_elimination(assignment: HashSet<Literal>, clauses: Vec<Clause>)
+        -> (HashSet<Literal>, Vec<Clause>) {
+    // Define a boolean mask.
+    let mut pure_literals: HashMap<Literal, bool> = HashMap::new();
+
+    // Iterate through the clauses and literals.
+    for clause in &clauses {
+        for literal in clause.literals.iter() {
+            match pure_literals.get(&literal.opposite()) {
+                None => {pure_literals.insert(literal.clone(), true);},
+                Some(_) => {
+                    pure_literals.insert(literal.clone(), false);
+                    pure_literals.insert(literal.opposite(), false);
+                },
+            }
+        }
+    }
+
+    // Make a set of pure literals.
+    let pure_literals: HashSet<Literal> = pure_literals.keys().filter(|k| *pure_literals.get(k).unwrap_or(&false)).cloned().collect();
+
+    // Filter out clauses that have a pure literal.
+    let clauses = clauses.iter().filter(|c| c.literals.intersection(&pure_literals).collect::<Vec<&Literal>>().len() > 1);
+
+    // Return!
+    return (assignment.union(&pure_literals).cloned().collect(), clauses.cloned().collect::<Vec<Clause>>());
 }
 
+
+// Picks a variable, alters the clauses appropriately.
 fn pick_var(clauses: &Vec<Clause>) -> (HashSet<Literal>, HashSet<Literal>, Vec<Clause>, Vec<Clause>) {
     // TODO: pick a random element and return the resulting formula from assigning
     // it to true/false

@@ -1,6 +1,7 @@
 use crate::structs::*;
 use std::collections::HashSet;
 
+// Parse raw string input into a vector of clauses.
 pub fn parse(raw_input: String) -> Vec<Clause> {
     // Clean input.
     let lines = raw_input.trim().split("\n");
