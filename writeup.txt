@@ -1,11 +1,15 @@
 # TODO
 
-- (Nick): Learn Rust
-- Unit clause elimination
-- Pure literal elimination
-- Pick var
-- Backtracking
+- Code review
 - Unit testing
-- System testing + make testing script
+- System testing
+- Try with Forge!
+- Make Oracle
 - Writeup
-- Documentation
+
+
+# Things to check 
+
+- Parsing on p line?
+- Output on multiple lines?
+- Parsing with extra whitespace?
