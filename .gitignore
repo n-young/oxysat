@@ -1,2 +1,3 @@
-/target
-/DELETE
+target/
+DELETE/
+.vscode/
