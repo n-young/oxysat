@@ -1,6 +1,6 @@
 use crate::structs::*;
 use crate::consts;
-use std::collections::{HashSet, HashMap};
+use std::{alloc::System, collections::{HashSet, HashMap}};
 use std::vec::Vec;
 use std::iter::FromIterator;
 
@@ -14,6 +14,7 @@ pub fn solve(clauses: Vec<Clause>) -> (bool, HashSet<Literal>) {
 
 // Primary solver body. Sovles recursively.
 fn solve_helper(assignment: HashSet<Literal>, clauses: Vec<Clause>) -> (bool, HashSet<Literal>) {
+
     // Apply unit clause elimination.
     let (assignment, clauses) = unit_clause_elimination(assignment, clauses);
 

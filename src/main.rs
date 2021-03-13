@@ -23,9 +23,6 @@ fn main() {
 
     // Parse!
     let clauses = parser::parse(contents);
-    for clause in &clauses {
-        println!("{}", clause);
-    }
 
     // Solve and print!
     let (is_sat, assignments) = solver::solve(clauses);
