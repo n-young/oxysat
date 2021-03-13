@@ -1,7 +1,9 @@
 use crate::structs::*;
+use crate::consts;
 use std::collections::HashSet;
 use std::vec::Vec;
 use std::iter::FromIterator;
+
 
 // TODO: Make it such that no functions borrow values.
 
@@ -27,7 +29,7 @@ fn solve_helper(assignment: HashSet<Literal>, clauses: Vec<Clause>) -> (bool, Ha
     // If there is an empty clause [], UNSAT.
     for clause in &clauses {
         if clause.literals.len() == 0 {
-            return (false, HashSet::new());
+            return consts::unsat();
         }
     }
 
@@ -66,24 +68,12 @@ fn unit_clause_elimination(
         match literal {
             Literal::Positive(id) => {
                 if units.contains(&Literal::Negative(id.clone())) {
-                    return (
-                        HashSet::new(),
-                        vec![Clause {
-                            id: -1,
-                            literals: HashSet::new(),
-                        }],
-                    );
+                    return consts::unsat_ret();
                 }
             }
             Literal::Negative(id) => {
                 if units.contains(&Literal::Positive(id.clone())) {
-                    return (
-                        HashSet::new(),
-                        vec![Clause {
-                            id: -1,
-                            literals: HashSet::new(),
-                        }],
-                    );
+                    return consts::unsat_ret();
                 }
             }
         }

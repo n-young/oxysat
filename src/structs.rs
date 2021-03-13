@@ -30,12 +30,13 @@ impl Literal {
     }
 
     // ID Getter.
-    pub fn id(&self) -> &String {
-        match self {
-            Literal::Positive(id) => id,
-            Literal::Negative(id) => id,
-        }
-    }
+    // TODO: remove if unused
+    // pub fn id(&self) -> &String {
+    //     match self {
+    //         Literal::Positive(id) => id,
+    //         Literal::Negative(id) => id,
+    //     }
+    // }
 }
 
 // Formatter for a Literal.

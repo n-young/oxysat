@@ -4,6 +4,7 @@ use std::fs;
 mod parser;
 mod solver;
 mod structs;
+mod consts;
 
 // Main!
 fn main() {
