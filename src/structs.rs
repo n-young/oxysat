@@ -2,7 +2,7 @@ use std::fmt;
 use std::fmt::Display;
 
 // Literal type - is either positive or negative, has a String id.
-#[derive(Hash, Debug)]
+#[derive(Hash, Eq, Debug)]
 pub enum Literal {
     Positive(String),
     Negative(String),
@@ -40,7 +40,7 @@ impl Display for Literal {
 }
 
 // Clause struct - has an ID and a set of Literals.
-#[derive(Hash, Debug)]
+#[derive(Debug)]
 pub struct Clause {
     pub id: i64,
     pub literals: Vec<Literal>,

@@ -10,7 +10,7 @@ pub fn parse(raw_input: String) -> Vec<Clause> {
     // Iterate.
     let mut clause_id = 0;
     for l in lines {
-        // Clean input, break on invalid, c, and p lines
+        // Clean input, break on invalid, c, and p lines.
         let tokens: Vec<&str> = l.trim().split(" ").collect();
         if tokens.len() == 0 || tokens[0] == "c" || tokens[0] == "p" { continue }
 
