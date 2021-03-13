@@ -20,6 +20,14 @@ impl Literal {
         }
     }
 
+    // Opposite.
+    pub fn opposite(l: Literal) -> Literal {
+        match l {
+            Literal::Positive(id) => Literal::Negative(id),
+            Literal::Negative(id) => Literal::Positive(id),
+        }
+    }
+
     // ID Getter.
     pub fn id(&self) -> &String {
         match self {

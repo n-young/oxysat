@@ -58,10 +58,10 @@ fn unit_clause_elimination(assignment: Vec<Literal>, clauses: Vec<Clause>) -> (V
         // Check if we've inserted its opposite; if so, return early.
         let literal = clause.literals[0];
         match literal {
-            Literal::Positive(val) => if units.contains(Literal::Negative(val)) {
+            Literal::Positive(id) => if units.contains(Literal::Negative(id)) {
                 return (vec![], vec![Clause { id: -1, literals: vec![] }])
             },
-            Literal::Negative(val) => if units.contains(Literal::Positive(val)) {
+            Literal::Negative(id) => if units.contains(Literal::Positive(id)) {
                 return (vec![], vec![Clause { id: -1, literals: vec![] }])
             },
         }
