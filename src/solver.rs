@@ -1,17 +1,16 @@
 use crate::structs::*;
-use std::iter::FilterMap;
 use std::collections::HashSet;
 
 // TODO: Make it such that no functions borrow values.
 
 // Solve function - passes variables to the solve helper.
 pub fn solve(clauses: Vec<Clause>) -> (bool, Vec<Literal>) {
-    let assignment = vec![];
+    let assignment = HashSet::new();
     solve_helper(assignment, clauses)
 }
 
 // Primary solver body. Sovles recursively.
-fn solve_helper(assignment: Vec<Literal>, clauses: Vec<Clause>) -> (bool, Vec<Literal>) {
+fn solve_helper(assignment: HashSet<Literal>, clauses: Vec<Clause>) -> (bool, Vec<Literal>) {
     // Apply unit clause elimination.
     let (assignment, clauses) = unit_clause_elimination(assignment, clauses);
 
@@ -46,36 +45,72 @@ fn solve_helper(assignment: Vec<Literal>, clauses: Vec<Clause>) -> (bool, Vec<Li
 }
 
 // Perform unit clause elimination and return resulting clauses/assignment
-fn unit_clause_elimination(assignment: Vec<Literal>, clauses: Vec<Clause>) -> (Vec<Literal>, Vec<Clause>) { 
+fn unit_clause_elimination(
+    assignment: HashSet<Literal>,
+    clauses: Vec<Clause>,
+) -> (Vec<Literal>, Vec<Clause>) {
     // Define a boolean mask.
     let units = HashSet::new();
 
     // Iterate through clauses.
     for clause in &clauses {
         // If there's only one clause, continue.
-        if clause.literals.len() != 1 { continue; }
+        if clause.literals.len() != 1 {
+            continue;
+        }
 
         // Check if we've inserted its opposite; if so, return early.
         let literal = clause.literals[0];
         match literal {
-            Literal::Positive(id) => if units.contains(Literal::Negative(id)) {
-                return (vec![], vec![Clause { id: -1, literals: vec![] }])
-            },
-            Literal::Negative(id) => if units.contains(Literal::Positive(id)) {
-                return (vec![], vec![Clause { id: -1, literals: vec![] }])
-            },
+            Literal::Positive(id) => {
+                if units.contains(Literal::Negative(id)) {
+                    return (
+                        vec![],
+                        vec![Clause {
+                            id: -1,
+                            literals: vec![],
+                        }],
+                    );
+                }
+            }
+            Literal::Negative(id) => {
+                if units.contains(Literal::Positive(id)) {
+                    return (
+                        vec![],
+                        vec![Clause {
+                            id: -1,
+                            literals: vec![],
+                        }],
+                    );
+                }
+            }
         }
 
         // Else, mark as a unit clause.
         units.insert(literal);
     }
-    
+
     // FilterMap (our brains are kiiiiinda big).
-    clauses.filter_map(|c| )
+    let flipped_units = units.map(|u| Literal::opposite(u));
+    let new_clauses = clauses.filter_map(|c| {
+        if c.literals.intersect(units).len() > 0 {
+            None
+        } else {
+            Some(Clause {
+                id: c.id,
+                literals: c.literals.difference(flipped_units),
+            })
+        }
+    });
+
+    return (assignment.union(units), new_clauses);
 }
 
 // Perform pure literal elimination and return resulting clauses/assignment
-fn pure_literal_elimination(assignment: Vec<Literal>, clauses: Vec<Clause>) -> (Vec<Literal>, Vec<Clause>) {
+fn pure_literal_elimination(
+    assignment: HashSet<Literal>,
+    clauses: Vec<Clause>,
+) -> (Vec<Literal>, Vec<Clause>) {
     panic!()
 }
 

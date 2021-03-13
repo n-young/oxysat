@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use std::fmt;
 use std::fmt::Display;
 
@@ -51,7 +52,7 @@ impl Display for Literal {
 #[derive(Debug)]
 pub struct Clause {
     pub id: i64,
-    pub literals: Vec<Literal>,
+    pub literals: HashSet<Literal>,
 }
 
 // Formatter for a Clause.
