@@ -36,6 +36,7 @@ fn main() {
             print!(" ");
             print!("{}", v);
         }
+        print!("\n")
     } else {
         println!("s UNSATISFIABLE");
     }

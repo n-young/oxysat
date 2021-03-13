@@ -34,7 +34,7 @@ fn solve_helper(assignment: HashSet<Literal>, clauses: Vec<Clause>) -> (bool, Ha
 
     // Pick a variable and alter clauses.
     let (assignment_if_true, assignment_if_false, clauses_if_true, clauses_if_false) =
-        pick_var(&clauses);
+        pick_var(assignment, &clauses);
 
     // Evaluate if the variable we chose to be true.
     let (true_results_is_sat, assignment) = solve_helper(assignment_if_true, clauses_if_true);
@@ -129,8 +129,36 @@ fn pure_literal_elimination(assignment: HashSet<Literal>, clauses: Vec<Clause>)
 
 
 // Picks a variable, alters the clauses appropriately.
-fn pick_var(clauses: &Vec<Clause>) -> (HashSet<Literal>, HashSet<Literal>, Vec<Clause>, Vec<Clause>) {
+fn pick_var(assignment: HashSet<Literal>, clauses: &Vec<Clause>) -> (HashSet<Literal>, HashSet<Literal>, Vec<Clause>, Vec<Clause>) {
     // TODO: pick a random element and return the resulting formula from assigning
     // it to true/false
-    panic!()
+    let picked_var = clauses.get(0).unwrap().literals.iter().cloned().collect::<Vec<Literal>>().get(0).expect("Shouldn't be an empty clause").clone();
+    let picked_var_set = HashSet::from_iter(vec![picked_var.clone()]);
+    let picked_var_opposite_set = HashSet::from_iter(vec![picked_var.opposite()]);
+
+    let clauses_if_true = clauses.iter().filter_map(|c| {
+        if c.literals.contains(&picked_var) {
+            None
+        } else {
+            let clause_with_var_removed = c.literals.difference(&picked_var_opposite_set).cloned().collect::<HashSet<Literal>>();
+            Some(Clause {
+                id: c.id,
+                literals: clause_with_var_removed,
+            })
+        }
+    });
+
+    let clauses_if_false = clauses.iter().filter_map(|c| {
+        if c.literals.contains(&picked_var.opposite()) {
+            None
+        } else {
+            let clause_with_var_removed = c.literals.difference(&picked_var_set).cloned().collect::<HashSet<Literal>>();
+            Some(Clause {
+                id: c.id,
+                literals: clause_with_var_removed,
+            })
+        }
+    });
+
+    return (assignment.union(&picked_var_set).cloned().collect(), assignment.union(&picked_var_opposite_set).cloned().collect(), clauses_if_true.collect(), clauses_if_false.collect());
 }
