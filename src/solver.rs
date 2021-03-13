@@ -113,7 +113,7 @@ fn unit_clause_elimination(assignment: HashSet<Literal>, clauses: Vec<Clause>)
         } else {
             Some(Clause {
                 id: c.id,
-                literals: c.literals.difference(&flipped_units).cloned().collect::<HashSet<Literal>>(),
+                literals: c.literals.difference(&flipped_units).cloned().collect(),
             })
         }
     });

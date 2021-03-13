@@ -1,6 +1,7 @@
 # TODO
 
 - Code review
+- Remove some type annotations?
 - Unit testing
 - System testing
 - Try with Forge!
