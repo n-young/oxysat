@@ -2,9 +2,10 @@ use std::fmt;
 use std::fmt::Display;
 
 // Literal type - is either positive or negative, has a String id.
+#[derive(Hash, Debug)]
 pub enum Literal {
     Positive(String),
-    Negative(String)
+    Negative(String),
 }
 
 impl Literal {
@@ -39,6 +40,7 @@ impl Display for Literal {
 }
 
 // Clause struct - has an ID and a set of Literals.
+#[derive(Hash, Debug)]
 pub struct Clause {
     pub id: i64,
     pub literals: Vec<Literal>,
@@ -48,6 +50,11 @@ pub struct Clause {
 impl Display for Clause {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let literal_strings: Vec<_> = self.literals.iter().map(|x| x.to_string()).collect();
-        write!(f, "ID: {} Literals: {}", self.id, literal_strings.join(", "))
+        write!(
+            f,
+            "ID: {} Literals: {}",
+            self.id,
+            literal_strings.join(", ")
+        )
     }
 }

@@ -22,10 +22,10 @@ fn main() {
 
     // Parse!
     let clauses = parser::parse(contents);
-    for clause in clauses {
+    for clause in &clauses {
         println!("{}", clause);
     }
 
     // Solve!
-    let (isSat, assignments) = solver::solve(clauses);
+    let (is_sat, assignments) = solver::solve(clauses);
 }
