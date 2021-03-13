@@ -1,0 +1,7 @@
+c  conflicting_units.cnf
+c
+c  UNSAT
+c 
+p cnf 1 2
+1 
+-1
