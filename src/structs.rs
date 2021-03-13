@@ -1,26 +1,27 @@
 use std::fmt;
 use std::fmt::Display;
-// Sign enum - either Positive or Negative.
-pub enum Sign {
-    Positive,
-    Negative,
-}
 
-// Literal struct - has a name and a Sign.
-pub struct Literal {
-    pub name: String,
-    pub sign: Sign,
+pub enum Literal {
+    Positive(String),
+    Negative(String)
 }
 
 // constructor
 impl Literal {
     pub fn new(i: i64) -> Literal {
-        if i < 0 {
-            Literal { name: (-i).to_string(), sign: Sign::Negative }
-        } else if i > 0 {
-            Literal { name: i.to_string(), sign: Sign::Positive }
+        if i > 0 {
+            Literal::Positive(i.to_string())
+        } else if i < 0 {
+            Literal::Negative((-i).to_string())
         } else {
             panic!("ERROR: 0 shouldn't be a literal.")
+        }
+    }
+
+    pub fn id(&self) -> &String {
+        match self {
+            Literal::Positive(id) => id,
+            Literal::Negative(id) => id,
         }
     }
 }
@@ -28,9 +29,9 @@ impl Literal {
 // Formatter for a Literal.
 impl Display for Literal {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self.sign {
-            Sign::Positive => write!(f, "{}", self.name),
-            Sign::Negative => write!(f, "-{}", self.name),
+        match self {
+            Literal::Positive(id) => write!(f, "{}", id),
+            Literal::Negative(id) => write!(f, "-{}", id),
         }
     }
 }
