@@ -1,4 +1,5 @@
 use crate::structs::*;
+use std::collections::HashSet;
 
 pub fn parse(raw_input: String) -> Vec<Clause> {
     // Clean input.
@@ -15,12 +16,12 @@ pub fn parse(raw_input: String) -> Vec<Clause> {
         if tokens.len() == 0 || tokens[0] == "c" || tokens[0] == "p" { continue }
 
         // Iterate through tokens.
-        let mut literal_set: Vec<Literal> = vec![];
+        let mut literal_set: HashSet<Literal> = HashSet::new();
         for tok in tokens {
             let tok_int = tok.parse::<i64>().expect("ERROR: Token not an integer.");
             if tok_int == 0 { break }
             let literal = Literal::new(tok_int);
-            literal_set.push(literal);
+            literal_set.insert(literal);
         }  
 
         // Make a new clause, add to clause_set.

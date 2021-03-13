@@ -3,7 +3,7 @@ use std::fmt;
 use std::fmt::Display;
 
 // Literal type - is either positive or negative, has a String id.
-#[derive(Hash, Eq, Debug)]
+#[derive(Hash, PartialEq, Eq, Clone, Debug)]
 pub enum Literal {
     Positive(String),
     Negative(String),
@@ -22,10 +22,10 @@ impl Literal {
     }
 
     // Opposite.
-    pub fn opposite(l: Literal) -> Literal {
-        match l {
-            Literal::Positive(id) => Literal::Negative(id),
-            Literal::Negative(id) => Literal::Positive(id),
+    pub fn opposite(&self) -> Literal {
+        match self {
+            Literal::Positive(id) => Literal::Negative(id.clone()),
+            Literal::Negative(id) => Literal::Positive(id.clone()),
         }
     }
 
