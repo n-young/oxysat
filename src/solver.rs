@@ -94,7 +94,7 @@ fn unit_clause_elimination(assignment: HashSet<Literal>, clauses: Vec<Clause>)
     });
 
     // Return!
-    return (assignment.union(&units).cloned().collect(), new_clauses.collect());
+    (assignment.union(&units).cloned().collect(), new_clauses.collect())
 }
 
 
@@ -121,10 +121,10 @@ fn pure_literal_elimination(assignment: HashSet<Literal>, clauses: Vec<Clause>)
     let pure_literals: HashSet<Literal> = pure_literals.keys().filter(|k| *pure_literals.get(k).unwrap_or(&false)).cloned().collect();
 
     // Filter out clauses that have a pure literal.
-    let clauses = clauses.iter().filter(|c| c.literals.intersection(&pure_literals).collect::<Vec<&Literal>>().len() > 1);
+    let clauses = clauses.iter().filter(|c| c.literals.intersection(&pure_literals).collect::<Vec<&Literal>>().len() == 0);
 
     // Return!
-    return (assignment.union(&pure_literals).cloned().collect(), clauses.cloned().collect::<Vec<Clause>>());
+    (assignment.union(&pure_literals).cloned().collect(), clauses.cloned().collect::<Vec<Clause>>())
 }
 
 
