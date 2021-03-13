@@ -1,4 +1,4 @@
-use crate::structs::*;
+use crate::{consts::unsat, structs::*};
 use crate::consts;
 use std::{alloc::System, collections::{HashSet, HashMap}};
 use std::vec::Vec;
@@ -6,9 +6,33 @@ use std::iter::FromIterator;
 
 
 // Solve function - passes variables to the solve helper.
-pub fn solve(clauses: Vec<Clause>) -> (bool, HashSet<Literal>) {
+pub fn solve(clauses: Vec<Clause>) -> (bool, HashSet<Literal>) {    
+    // Get all of the positive literals.
+    let mut all_literals = HashSet::new();
+    for clause in &clauses {
+        for literal in &clause.literals {
+            match literal {
+                Literal::Positive(_) => all_literals.insert(literal.clone()),
+                Literal::Negative(_) => all_literals.insert(literal.opposite()),
+            };
+        }
+    }
+
+    // Run.
     let assignment = HashSet::new();
-    solve_helper(assignment, clauses)
+    let (is_sat, mut assignment) = solve_helper(assignment, clauses);
+
+    // Return.
+    if !is_sat {
+        (is_sat, assignment)
+    } else {
+        for lit in &all_literals {
+            if !assignment.contains(&lit.opposite()) {
+                assignment.insert(lit.clone());
+            }
+        }
+        (is_sat, assignment)
+    }
 }
 
 

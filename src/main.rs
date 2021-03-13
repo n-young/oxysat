@@ -1,6 +1,8 @@
 use std::env;
 use std::fs;
 
+use consts::LINE_WIDTH;
+
 mod parser;
 mod solver;
 mod structs;
@@ -29,11 +31,17 @@ fn main() {
     if is_sat {
         println!("s SATISFIABLE");
         print!("v");
+        // for (i, v) in assignments.iter().enumerate() {
+        //     if i % consts::LINE_WIDTH == 0 && i != 0 {
+        //         print!("\nv {}", v)
+        //     } else {
+        //         print!(" {}", v);
+        //     }
+        // }
         for v in assignments {
-            print!(" ");
-            print!("{}", v);
+            print!(" {}", v);
         }
-        println!();
+        println!(" 0");
     } else {
         println!("s UNSATISFIABLE");
     }
