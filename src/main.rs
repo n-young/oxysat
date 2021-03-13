@@ -26,6 +26,16 @@ fn main() {
         println!("{}", clause);
     }
 
-    // Solve!
+    // Solve and print!
     let (is_sat, assignments) = solver::solve(clauses);
+    if is_sat {
+        println!("s SATISFIABLE");
+        print!("v");
+        for v in assignments {
+            print!(" ");
+            print!("{}", v);
+        }
+    } else {
+        println!("s UNSATISFIABLE");
+    }
 }
