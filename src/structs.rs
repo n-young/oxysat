@@ -8,10 +8,9 @@ pub enum Literal {
     Positive(String),
     Negative(String),
 }
-
 impl Literal {
     // Constructor.
-    pub fn new(i: i64) -> Literal {
+    pub fn new(i: i32) -> Literal {
         if i > 0 {
             Literal::Positive(i.to_string())
         } else if i < 0 {
@@ -28,19 +27,9 @@ impl Literal {
             Literal::Negative(id) => Literal::Positive(id.clone()),
         }
     }
-
-    // ID Getter.
-    // TODO: remove if unused
-    // pub fn id(&self) -> &String {
-    //     match self {
-    //         Literal::Positive(id) => id,
-    //         Literal::Negative(id) => id,
-    //     }
-    // }
 }
-
-// Formatter for a Literal.
 impl Display for Literal {
+    // Formatter for a Literal.
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Literal::Positive(id) => write!(f, "{}", id),
@@ -49,15 +38,15 @@ impl Display for Literal {
     }
 }
 
+
 // Clause struct - has an ID and a set of Literals.
 #[derive(Debug, Clone)]
 pub struct Clause {
-    pub id: i64,
+    pub id: i32,
     pub literals: HashSet<Literal>,
 }
-
-// Formatter for a Clause.
 impl Display for Clause {
+    // Formatter for a Clause.
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let literal_strings: Vec<_> = self.literals.iter().map(|x| x.to_string()).collect();
         write!(

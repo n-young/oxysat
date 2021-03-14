@@ -1,12 +1,10 @@
 # TODO
 
-- Code review
-- Remove some type annotations?
 - Multithreaded
 - Unit testing
 - System testing
-- Try with Forge!
 - Make Oracle
+- Try with Forge! (handshakes 6 default, 971 ours)
 - Writeup
 
 
@@ -15,3 +13,15 @@
 - Parsing on p line?
 - Output on multiple lines?
 - Parsing with extra whitespace?
+
+
+"""
+In four or so sentences, compare how quickly Forge is able
+to find an instance for some spec from a previous homework
+using your solver compared to the default one (with the above
+line removed). You can find the solve time (time spent in
+the actual SAT solver) in the debug information Forge prints
+before launching Sterling. Note down what spec you used and
+what the solve times were for a sat and unsat instance for
+your solver and for the default one.
+"""

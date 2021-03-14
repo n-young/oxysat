@@ -7,7 +7,7 @@ pub fn parse(raw_input: String) -> Vec<Clause> {
     let lines = raw_input.trim().split("\n");
 
     // Initialize.
-    let mut clause_set: Vec<Clause> = vec![];
+    let mut clause_set = vec![];
 
     // Concat values into a string.
     let mut s = String::new();
@@ -20,13 +20,13 @@ pub fn parse(raw_input: String) -> Vec<Clause> {
     }
 
     // Declare some vars.
-    let mut literal_set: HashSet<Literal> = HashSet::new();
+    let mut literal_set = HashSet::new();
     let mut clause_id = 0;
 
     // Iterate through tokens.
     let tokens: Vec<&str> = s.trim().split_whitespace().collect();
     for tok in tokens {
-        let tok_int = tok.parse::<i64>().expect("ERROR: Token not an integer.");
+        let tok_int = tok.parse::<i32>().expect("ERROR: Token not an integer.");
         if tok_int == 0 {
             // Make a new clause, add to clause_set.
             let clause = Clause { id: clause_id, literals: literal_set };
