@@ -2,6 +2,7 @@
 
 - Code review
 - Remove some type annotations?
+- Multithreaded
 - Unit testing
 - System testing
 - Try with Forge!
