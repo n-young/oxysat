@@ -200,3 +200,77 @@ fn pick_var(assignment: HashSet<Literal>, clauses: &Vec<Clause>) -> (HashSet<Lit
     // Return!
     (assignment.union(&picked_var_set).cloned().collect(), assignment.union(&picked_var_opposite_set).cloned().collect(), clauses_if_true.collect(), clauses_if_false.collect())
 }
+
+
+// TESTS
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::parser::parse;
+
+    #[test]
+    fn no_clauses_is_sat() {
+        assert!(solve(vec![]).0);
+    }
+
+    #[test]
+    fn empty_clause_is_unsat() {
+        let clause = Clause { id: 0, literals: HashSet::new() };
+        let clauses = vec![clause];
+        assert!(!solve(clauses).0);
+    }
+
+    #[test]
+    fn no_units() {
+        let clauses = parse(String::from("1 2 3 0 -1 -2 -3 0"));
+        let clauses_clone = clauses.clone();
+        for (i, clause) in unit_clause_elimination(HashSet::new(), clauses).1.iter().enumerate() {
+            assert_eq!(clause.clone(), clauses_clone[i]);
+        }
+    }
+
+    #[test]
+    fn one_unit() {
+        let clauses_before = parse(String::from("1 0 1 2 3 0 -1 3 4 0"));
+        let clauses_after = parse(String::from("3 4 0"));
+        for (i, clause) in unit_clause_elimination(HashSet::new(), clauses_before).1.iter().enumerate() {
+            assert_eq!(clause.literals, clauses_after[i].literals);
+        }
+    }
+
+    #[test]
+    fn no_pure_literals() {
+        let clauses = parse(String::from("1 2 3 0 -1 -2 -3 0"));
+        let clauses_clone = clauses.clone();
+        for (i, clause) in pure_literal_elimination(HashSet::new(), clauses).1.iter().enumerate() {
+            assert_eq!(clause.clone(), clauses_clone[i]);
+        }
+    }
+
+    #[test]
+    fn one_pure_literals() {
+        let clauses_before = parse(String::from("1 2 3 0 1 -3 4 0 1 -2 -4 0 2 3 4 0"));
+        let clauses_after = parse(String::from("2 3 4 0"));
+        for (i, clause) in pure_literal_elimination(HashSet::new(), clauses_before).1.iter().enumerate() {
+            assert_eq!(clause.literals, clauses_after[i].literals);
+        }
+    }
+
+    #[test]
+    fn pick_var_picks_most_frequent_pos() {
+        let clauses = parse(String::from("1 2 3 4 0 1 5 6 7 8 0 1 9 0"));
+        let picked_var = pick_var(HashSet::new(), &clauses).0;
+        let mut res = HashSet::new();
+        res.insert(Literal::Positive(String::from("1")));
+        assert_eq!(picked_var, res);
+    }
+
+    #[test]
+    fn pick_var_picks_most_frequent_neg() {
+        let clauses = parse(String::from("1 2 3 4 0 1 5 6 7 8 0 1 9 0"));
+        let picked_var = pick_var(HashSet::new(), &clauses).1;
+        let mut res = HashSet::new();
+        res.insert(Literal::Negative(String::from("1")));
+        assert_eq!(picked_var, res);
+    }
+}
