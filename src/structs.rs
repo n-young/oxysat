@@ -40,20 +40,45 @@ impl Display for Literal {
 
 
 // Clause struct - has an ID and a set of Literals.
-#[derive(Debug, Clone)]
+#[derive(PartialEq, Eq, Debug, Clone)]
 pub struct Clause {
     pub id: i32,
     pub literals: HashSet<Literal>,
 }
-impl Display for Clause {
-    // Formatter for a Clause.
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let literal_strings: Vec<_> = self.literals.iter().map(|x| x.to_string()).collect();
-        write!(
-            f,
-            "ID: {} Literals: {}",
-            self.id,
-            literal_strings.join(", ")
-        )
+
+// TESTS
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_literal_construction() {
+        let lit = Literal::Positive(String::from("name"));
+        match lit {
+            Literal::Positive(id) => assert_eq!(id, "name"),
+            _ => {}
+        }
+
+        let lit = Literal::Negative(String::from("name"));
+        match lit {
+            Literal::Negative(id) => assert_eq!(id, "name"),
+            _ => {}
+        }
+    }
+
+    #[test]
+    fn test_opposite() {
+        let pos = Literal::Positive(String::from("id"));
+        let neg = Literal::Negative(String::from("id"));
+        assert_eq!(pos, neg.opposite());
+        assert_eq!(pos.opposite(), neg);
+    }
+
+    #[test]
+    fn test_literal_display() {
+        let pos = Literal::Positive(String::from("1"));
+        let neg = Literal::Negative(String::from("3"));
+        assert_eq!(String::from("1"), format!("{}", pos));
+        assert_eq!(String::from("-3"), format!("{}", neg));
     }
 }

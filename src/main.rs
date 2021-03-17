@@ -1,4 +1,4 @@
-use std::env;
+use std::{env, process::exit};
 use std::fs;
 
 mod parser;
@@ -14,7 +14,7 @@ fn main() {
     // Check args length.
     if args.len() != 2 {
         println!("Expected 1 argument. Usage: ./run.sh <filename>");
-        panic!(1);
+        exit(1);
     }
 
     // Get filename, read raw contents.

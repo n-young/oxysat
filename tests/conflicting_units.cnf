@@ -3,5 +3,5 @@ c
 c  UNSAT
 c 
 p cnf 1 2
-1 
--1
+1 0
+-1 0

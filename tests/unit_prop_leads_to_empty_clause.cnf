@@ -1,0 +1,9 @@
+c  unit_prop_leads_to_empty_clause.cnf
+c
+c UNSAT
+c 
+p cnf 3 2
+1 0
+2 0
+3 0
+-1 -2 -3 0
