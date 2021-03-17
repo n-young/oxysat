@@ -3,7 +3,7 @@
 - Multithreaded
 - Unit testing
 - System testing
-- Make Oracle
+- Make Oracle + README
 - Try with Forge!
     Before optimizations / multithreading
         (handshakes SAT 6 default, 971 ours)

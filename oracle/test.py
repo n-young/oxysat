@@ -3,8 +3,8 @@ import math
 import sys
 import subprocess
 
-TEST_FILE_NAME = "test.cnf"
-OUTPUT_FILE_NAME = "out.txt"
+TEST_FILE_NAME = "tmp.cnf"
+OUTPUT_FILE_NAME = "tmp.txt"
 CLAUSE_COUNT = 10
 LITERAL_COUNT = 5
 MAX_LITERALS_PER_CLAUSE = 3
@@ -74,21 +74,21 @@ def write_test(test, filename):
         out += " ".join([str(literal) for literal in clause.literal_set])
         out += " 0\n"
 
-    with open(f"tmp/{filename}", "w") as f:
+    with open(f"{filename}", "w") as f:
         f.write(out)
 
 
 def run_test(input_file, output_file):
     """ Emit a shell command to run the solver and the emitted file """
-    with open(f"tmp/{output_file}", "w") as f:
-        subprocess.run(["cargo", "run", "--release", f"tmp/{input_file}"], stdout=f)
+    with open(f"{output_file}", "w") as f:
+        subprocess.run(["cargo", "run", "--release", f"{input_file}"], stdout=f)
     print("FINISHED RUNNING SOLVER")
 
 
 def read_output(filename):
     """ Read output file from solver and deserialize """
     lines = []
-    with open(f"tmp/{filename}", "r") as f:
+    with open(f"{filename}", "r") as f:
         lines = f.readlines()
 
     values = ""
