@@ -1,5 +1,6 @@
 import random
 import math
+import sys
 import subprocess
 
 TEST_FILE_NAME = "test.cnf"
@@ -132,7 +133,7 @@ def evaluate_solution(variable_to_value_resolver, test):
             print(clause)
             print("Assignment:")
             print(variable_to_value_resolver)
-            return
+            sys.exit(1)
 
     print("SOLUTION IS VALID")
 

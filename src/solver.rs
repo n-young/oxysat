@@ -156,7 +156,18 @@ fn pure_literal_elimination(assignment: HashSet<Literal>, clauses: Vec<Clause>)
 // Picks a variable, alters the clauses appropriately.
 fn pick_var(assignment: HashSet<Literal>, clauses: &Vec<Clause>) -> (HashSet<Literal>, HashSet<Literal>, Vec<Clause>, Vec<Clause>) {
     // Pick a variable, put it and its opposite into sets.
-    let picked_var = clauses.get(0).unwrap().literals.iter().cloned().collect::<Vec<Literal>>().get(0).expect("Shouldn't be an empty clause").clone();
+
+    let mut literal_count = HashMap::new();
+
+    for clause in clauses {
+        for literal in &(clause.literals) {
+            literal_count.insert(literal, literal_count.get(literal).unwrap_or(&0) + 1);
+        }
+    }
+    let most_common_var = literal_count.iter().max_by(|(_,x1), (_,x2)| x1.cmp(x2)).unwrap().0;
+
+    // let picked_var = clauses.get(0).unwrap().literals.iter().cloned().collect::<Vec<Literal>>().get(0).expect("Shouldn't be an empty clause").clone();
+    let picked_var = (*most_common_var).clone();
     let picked_var_set = HashSet::from_iter(vec![picked_var.clone()]);
     let picked_var_opposite_set = HashSet::from_iter(vec![picked_var.opposite()]);
 
