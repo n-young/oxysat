@@ -1,24 +1,3 @@
-# TODO
-
-- Multithreaded
-- Unit testing
-- System testing
-- Make Oracle + README
-- Try with Forge!
-    Before optimizations / multithreading
-        (handshakes SAT 6 default, 971 ours)
-        (graph_coloring SAT 6 default, 1126 ours)
-        (graph_coloring UNSAT 0 default, getting #f)
-- Writeup
-
-
-# Things to check 
-
-- Parsing on p line?
-- Output on multiple lines?
-- Parsing with extra whitespace?
-
-
 """
 In four or so sentences, compare how quickly Forge is able
 to find an instance for some spec from a previous homework
@@ -29,3 +8,15 @@ before launching Sterling. Note down what spec you used and
 what the solve times were for a sat and unsat instance for
 your solver and for the default one.
 """
+
+NOTE: There is a README.md for some more information.
+
+We ran our solver on the graph_coloring assignment from
+Forge 2. In the SAT case, Forge natively runs in about
+6 units, while ours runs in about 200 units. In the
+UNSAT case, Forge runs in about 10 units, while ours
+returned #f.
+
+One cool thing is that when we optimized our variable
+picking to pick the most frequently observed literal,
+our solve time was cut 10x.

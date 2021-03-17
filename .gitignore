@@ -1,5 +1,5 @@
 target/
-DELETE/
 .vscode/
 *.tmp
 *.rkt
+*.temp
