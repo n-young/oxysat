@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cargo run $1
+cargo run --release $1

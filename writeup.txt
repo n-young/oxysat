@@ -4,7 +4,11 @@
 - Unit testing
 - System testing
 - Make Oracle
-- Try with Forge! (handshakes 6 default, 971 ours)
+- Try with Forge!
+    Before optimizations / multithreading
+        (handshakes SAT 6 default, 971 ours)
+        (graph_coloring SAT 6 default, 1126 ours)
+        (graph_coloring UNSAT 0 default, getting #f)
 - Writeup
 
 
